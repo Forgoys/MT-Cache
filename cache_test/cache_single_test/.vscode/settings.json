@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "\"*.cu\"": "cpp",
+        "*.cu": "cpp",
+        "*.cuh": "cpp",
+        "*.c": "c",
+        "typeinfo": "cpp",
+        "m3000.h": "c",
+        "cache_direct.h": "c",
+        "limits.h": "c"
+    }
+}

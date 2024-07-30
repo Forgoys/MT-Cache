@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "\"*.cu\"": "cpp",
+        "*.cu": "cpp",
+        "*.cuh": "cpp",
+        "m3000.h": "c",
+        "hthread_device.h": "c",
+        "time.h": "c",
+        "stdbool.h": "c",
+        "stdio.h": "c",
+        "util.h": "c",
+        "type_traits": "c",
+        "cstddef": "c",
+        "cache_bulk.h": "c"
+    }
+}

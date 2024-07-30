@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "\"*.cu\"": "cpp",
+        "*.cu": "cpp",
+        "*.cuh": "cpp",
+        "typeinfo": "c",
+        "limits.h": "c",
+        "hthread_device.h": "c"
+    }
+}
