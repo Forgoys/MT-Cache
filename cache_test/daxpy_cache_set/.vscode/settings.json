@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "\"*.cu\"": "cpp",
+        "*.cu": "cpp",
+        "*.cuh": "cpp",
+        "*.c": "c",
+        "unistd.h": "c",
+        "type_traits": "c",
+        "typeinfo": "c",
+        "cstddef": "c",
+        "hthread_device.h": "c",
+        "cache_set.h": "c"
+    }
+}

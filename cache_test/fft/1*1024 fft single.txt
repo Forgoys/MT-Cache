@@ -1,0 +1,10 @@
+CPU Time (average of 3 rounds): 0.000995 seconds
+test time:(sets:0,lines:7): 0.003958 seconds,speed up : 2.87
+test time:(sets:0,lines:8): 0.003778 seconds,speed up : 2.93
+test time:(sets:0,lines:9): 0.003655 seconds,speed up : 3.02
+test time:(sets:0,lines:10): 0.003818 seconds,speed up : 2.88
+test time:(sets:0,lines:11): 0.003717 seconds,speed up : 2.99
+test time:(sets:0,lines:12): 0.003885 seconds,speed up : 2.86
+test time:(sets:0,lines:13): 0.004379 seconds,speed up : 2.53
+test time:(sets:0,lines:14): 0.005994 seconds,speed up : 1.85
+All tests completed
