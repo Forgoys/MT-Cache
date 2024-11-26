@@ -9,24 +9,27 @@
     // unsigned long de_line_addr_buffer; \
     // unsigned long de_align;
 
-#define CACHEe_INIT(__name, __type, __csets, __cline)                                        \
-    int de_csets_##__name = __csets;                                                         \
-    int de_cline_##__name = __cline;                                                         \
-    int de_csets_num_##__name = 1 << de_csets_##__name;                                      \
-    int de_cline_num_##__name = 1 << de_cline_##__name;                                      \
-    char *de_buffer_##__name = scalar_malloc(de_csets_num_##__name * de_cline_num_##__name); \
-    unsigned long de_tag_##__name[de_csets_num_##__name];                                    \
-    char de_dirty_##__name[de_csets_num_##__name];                                           \
-    unsigned long de_offsetMask_##__name = de_cline_num_##__name - 1;                        \
-    unsigned long de_indexMask_##__name = de_csets_num_##__name - 1;                         \
-    unsigned long de_alignMask_##__name = ~de_offsetMask_##__name;                           \
-    for (int i = 0; i < de_csets_num_##__name; i++)                                          \
-    {                                                                                        \
-        de_tag_##__name[i] = ULONG_MAX;                                                      \
-        de_dirty_##__name[i] = 0;                                                            \
-    }
+#define CACHEd_INIT(__name, __type, __Ea, __sets, __lines)                                       \
+    do                                                                                           \
+    {                                                                                            \
+        int de_csets_##__name = __sets;                                                          \
+        int de_cline_##__name = __lines;                                                         \
+        int de_csets_num_##__name = 1 << de_csets_##__name;                                      \
+        int de_cline_num_##__name = 1 << de_cline_##__name;                                      \
+        char *de_buffer_##__name = scalar_malloc(de_csets_num_##__name * de_cline_num_##__name); \
+        unsigned long de_tag_##__name[de_csets_num_##__name];                                    \
+        char de_dirty_##__name[de_csets_num_##__name];                                           \
+        unsigned long de_offsetMask_##__name = de_cline_num_##__name - 1;                        \
+        unsigned long de_indexMask_##__name = de_csets_num_##__name - 1;                         \
+        unsigned long de_alignMask_##__name = ~de_offsetMask_##__name;                           \
+        for (int i = 0; i < de_csets_num_##__name; i++)                                          \
+        {                                                                                        \
+            de_tag_##__name[i] = ULONG_MAX;                                                      \
+            de_dirty_##__name[i] = 0;                                                            \
+        }                                                                                        \
+    } while (0)
 
-#define CACHEe_SEC_R_RD(__name, __addr, __value, __type)                                                                               \
+#define CACHEd_RD(__name, __addr, __value, __type)                                                                                     \
     do                                                                                                                                 \
     {                                                                                                                                  \
         unsigned long point_p = (unsigned long)((__type *)(__addr));                                                                   \
@@ -49,7 +52,7 @@
         __value = *((__type *)(line_addr_buffer + offset));                                                                            \
     } while (0)
 
-#define CACHEe_SEC_W_RD(__name, __addr, __value, __type)                                                                               \
+#define CACHEd_WR(__name, __addr, __value, __type)                                                                                     \
     do                                                                                                                                 \
     {                                                                                                                                  \
         unsigned long point_p = (unsigned long)((__type *)(__addr));                                                                   \
@@ -72,7 +75,7 @@
         de_dirty_##__name[index] = 1;                                                                                                  \
     } while (0);
 
-#define CACHEe_FLUSH(__name)                                                                                           \
+#define CACHEd_FLUSH(__name)                                                                                                   \
     do                                                                                                                         \
     {                                                                                                                          \
         for (int i = 0; i < de_csets_num_##__name; i++)                                                                        \
@@ -87,7 +90,7 @@
         scalar_free(de_buffer_##__name);                                                                                       \
     } while (0)
 
-#define CACHEe_INVALID(__name)           \
+#define CACHEd_INVALID(__name)           \
     do                                   \
     {                                    \
         scalar_free(de_buffer_##__name); \
