@@ -3,7 +3,8 @@
     {
       "name": "linux-gcc-arm64",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "/thfs3/software/programming_env/mt3000_programming_env/hthreads/include/**"
       ],
       "compilerPath": "/usr/bin/gcc",
       "defines": [],

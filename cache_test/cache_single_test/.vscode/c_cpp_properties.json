@@ -4,7 +4,8 @@
       "name": "linux-gcc-arm64",
       "includePath": [
         "${workspaceFolder}/**",
-        "/thfs3/software/programming_env/mt3000_programming_env/dsp_compiler/include/**"
+        "/thfs3/software/programming_env/mt3000_programming_env/dsp_compiler/include/**",
+        "/thfs3/home/xjtu_cx/lhj/mt3000-cache/define_version/**"
       ],
       "defines": [],
       "cStandard": "${default}",

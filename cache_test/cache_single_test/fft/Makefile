@@ -13,7 +13,7 @@ DEV_LD:=${DEV_CC_BIN_PATH}/MT-3000-ld
 DEV_MAKEDAT:=${DEV_CC_BIN_PATH}/MT-3000-makedat
 DEV_CC_INCLUDE_PATH:=${DEV_CC_ROOT_PATH}/include
 DEV_CC_LIB_PATH:=${DEV_CC_ROOT_PATH}/lib
-CACHE_PATH:=/thfs3/home/xjtu_cx/cjk/mt3000-cache/define_version/
+CACHE_PATH:=/thfs3/home/xjtu_cx/lhj/mt3000-cache/define_version/
 
 DEV_INCLUDE_PATH:=${DEV_CC_INCLUDE_PATH} ${HTHREADS_INCLUDE_PATH} ${CACHE_PATH}
 DEV_INCLUDE_FLAGS:=$(foreach i, ${DEV_INCLUDE_PATH}, -I${i})

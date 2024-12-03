@@ -52,10 +52,9 @@ static inline void gemm_single_mem_prof(long *A, long *B, long *C, int length, i
 }
 static inline void gemm_single_cache(long *A, long *B, long *C, int length, int stride)
 {
-    CACHEe_ENV();
-    CACHEe_INIT(A, long, global_cets, global_lines);
-    CACHEe_INIT(B, long, global_cets, global_lines);
-    CACHEe_INIT(C, long, global_cets, global_lines);
+    CACHEd_INIT(A, long, A, 0, global_lines);
+    CACHEd_INIT(B, long, B, 0, global_lines);
+    CACHEd_INIT(C, long, C, 0, global_lines);
     long tmp_A, tmp_B, tmp_C;
     for (int k = 0; k < length; k++)
     {
@@ -63,17 +62,17 @@ static inline void gemm_single_cache(long *A, long *B, long *C, int length, int 
         {
             for (int j = 0; j < length; j++)
             {
-                CACHEe_SEC_R_RD(A, A + i * stride + k, tmp_A, long);
-                CACHEe_SEC_R_RD(B, B + k * stride + j, tmp_B, long);
-                CACHEe_SEC_R_RD(C, C + i * stride + j, tmp_C, long);
+                CACHEd_RD(A, A + i * stride + k, tmp_A, long);
+                CACHEd_RD(B, B + k * stride + j, tmp_B, long);
+                CACHEd_RD(C, C + i * stride + j, tmp_C, long);
                 tmp_C += tmp_A * tmp_B;
-                CACHEe_SEC_W_RD(C, C + i * stride + j, tmp_C, long);
+                CACHEd_WT(C, C + i * stride + j, tmp_C, long);
             }
         }
     }
-    CACHEe_INVALID(A);
-    CACHEe_INVALID(B);
-    CACHEe_FLUSH(C, long);
+    CACHEd_FLUSH(A);
+    CACHEd_FLUSH(B);
+    CACHEd_FLUSH(C);
 }
 
 static inline void gemm_single_dma(long *A, long *B, long *C, int length, int stride)
@@ -139,7 +138,7 @@ __global__ void gemm_mem_test_kernel(int length, int tile_size, int cets, int li
 
         for (int block_k = 0; block_k < block_row_num; block_k++)
         {
-            gemm_single_mem_prof(A + (block_row * tile_size * length + block_k * tile_size),
+            gemm_single_mem(A + (block_row * tile_size * length + block_k * tile_size),
                             B + (block_k * tile_size * length + block_col * tile_size),
                             C + (block_row * tile_size * length + block_col * tile_size),
                             tile_size, length);

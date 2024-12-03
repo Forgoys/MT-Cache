@@ -45,7 +45,7 @@ ALL:daxpy
 daxpy.hos:daxpy.hos.c
 	${HOS_CC} -o $@ $^ ${HOS_CFLAGS} ${HOS_LDFLAGS}
 
-daxpy:daxpy.hos daxpy_l1_bulk_cache.dev.dat daxpy_l3_cache_bulk_simd.dev.dat
+daxpy:daxpy.hos daxpy_sm.dev.dat
 
 .PHONY:clean
 clean:

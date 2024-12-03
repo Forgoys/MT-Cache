@@ -21,7 +21,14 @@
     "typeinfo": "cpp",
     "string": "cpp",
     "functional": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "cache_bulk.h": "c",
+    "hthread_device.h": "c",
+    "cache_single.h": "c",
+    "util.h": "c",
+    "csv_handler.h": "c",
+    "hthread_host.h": "c",
+    "mem.h": "c"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",

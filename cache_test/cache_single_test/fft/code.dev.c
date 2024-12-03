@@ -51,26 +51,26 @@ static inline void fft_serial(uint64_t i, uint64_t n, complex *arr, complex *W, 
 static inline void fft_serial_cache(uint64_t i, uint64_t n, complex *arr, complex *W, complex *result)
 {
     CACHEs_ENV();
-    CACHEs_INIT(arr, complex, 0, 0, global_lines);  // Initialize cache for arr
-    CACHEs_INIT(W, complex, 0, 0, global_lines);    // Initialize cache for W
-    CACHEs_INIT(result, complex, 0, 0, global_lines);  // Initialize cache for result
+    CACHEs_INIT(arr, complex, arr, 0, global_lines);  // Initialize cache for arr
+    CACHEs_INIT(W, complex, W, 0, global_lines);    // Initialize cache for W
+    CACHEs_INIT(result, complex, result, 0, global_lines);  // Initialize cache for result
 
     uint64_t j = 0;
     complex temp,tmp_arr, tmp_arr_i, tmp_w, tmp_result;
-    CACHEs_SEC_W_RD(arr, arr + i, tmp_arr_i, complex);
+    CACHEs_RD(arr, arr + i, tmp_arr_i, complex);
     for (uint64_t k = i; k < n; k++)
     {
-        CACHEs_SEC_W_RD(arr, arr + k, tmp_arr, complex);  // Read from cache
-        CACHEs_SEC_W_RD(W, W + k, tmp_w, complex);  // Read from cache
+        CACHEs_RD(arr, arr + k, tmp_arr, complex);  // Read from cache
+        CACHEs_RD(W, W + k, tmp_w, complex);  // Read from cache
         mul(tmp_w, tmp_arr, &temp);  // Multiply by twiddle factor
         add(tmp_arr_i, temp, &tmp_result);  
-        CACHEs_SEC_W_WR(result, result + j, tmp_result, complex);  // Add to result
+        CACHEs_WT(result, result + j, tmp_result, complex);  // Add to result
         j++;
     }
 
     CACHEs_FLUSH(arr);  // Flush cache after computation
     CACHEs_FLUSH(W);
-    CACHEs_FLUSH(result, complex);
+    CACHEs_FLUSH(result);
 }
 
 // Parallel FFT kernel without cache

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <compiler/m3000.h>
-#include "cache_diret.h"
+#include "cache_direct.h"
 #include "hthread_device.h"
 #include "mem.h"
 int global_cets = 7;
@@ -49,35 +49,27 @@ static inline void fft_serial(uint64_t i, uint64_t n, complex *arr, complex *W, 
 // Serial FFT function with cache support
 static inline void fft_serial_cache(uint64_t i, uint64_t n, complex *arr, complex *W, complex *result)
 {
-    CACHEe_ENV();
-    CACHEe_INIT(arr, complex, global_cets, global_lines);  // Initialize cache for arr
-    CACHEe_INIT(W, complex, global_cets, global_lines);    // Initialize cache for W
-    CACHEe_INIT(result, complex, global_cets, global_lines);  // Initialize cache for result
+    CACHEd_ENV();
+    CACHEd_INIT(arr, complex, arr, 0, global_lines);  // Initialize cache for arr
+    CACHEd_INIT(W, complex, W, 0, global_lines);    // Initialize cache for W
+    CACHEd_INIT(result, complex, result, 0, global_lines);  // Initialize cache for result
 
     uint64_t j = 0;
     complex temp,tmp_arr, tmp_arr_i, tmp_w, tmp_result;
-    CACHEe_SEC_R_RD(arr, arr + i, tmp_arr_i, complex);
+    CACHEd_RD(arr, arr + i, tmp_arr_i, complex);
     for (uint64_t k = i; k < n; k++)
     {
-        // complex temp;
-        // CACHEe_SEC_W_RD(arr, arr + k, temp, complex);  // Read from cache
-        // CACHEe_SEC_W_RD(W, W + k, temp, complex);  // Read from cache
-        // mul(W[k], arr[k], &temp);  // Multiply by twiddle factor
-        // CACHEe_SEC_W_RD(arr, arr + i, temp, complex);  // Add to result
-        // CACHEe_SEC_W_RD(result, result + i, temp, complex);  // Add to result
-        // add(arr[i], temp, &result[j]);  
-        // j++;
-        CACHEe_SEC_R_RD(arr, arr + k, tmp_arr, complex);  // Read from cache
-        CACHEe_SEC_R_RD(W, W + k, tmp_w, complex);  // Read from cache
+        CACHEd_RD(arr, arr + k, tmp_arr, complex);  // Read from cache
+        CACHEd_RD(W, W + k, tmp_w, complex);  // Read from cache
         mul(tmp_w, tmp_arr, &temp);  // Multiply by twiddle factor
         add(tmp_arr_i, temp, &tmp_result);  
-        CACHEe_SEC_W_RD(result, result + j, tmp_result, complex);  // Add to result
+        CACHEd_WT(result, result + j, tmp_result, complex);  // Add to result
         j++;
     }
 
-    CACHEe_INVALID(arr);  // Flush cache after computation
-    CACHEe_INVALID(W);
-    CACHEe_FLUSH(result, complex);
+    CACHEd_FLUSH(arr);  // Flush cache after computation
+    CACHEd_FLUSH(W);
+    CACHEd_FLUSH(result);
 }
 
 // Parallel FFT kernel without cache

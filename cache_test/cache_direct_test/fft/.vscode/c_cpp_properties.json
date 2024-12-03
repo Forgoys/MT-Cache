@@ -3,7 +3,8 @@
     {
       "name": "linux-gcc-arm64",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "/thfs3/home/xjtu_cx/lhj/mt3000-cache/define_version/"
       ],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "${default}",

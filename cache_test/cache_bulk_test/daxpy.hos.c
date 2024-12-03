@@ -1,12 +1,3 @@
-/**
- * daxpy.hos.c
- * @Author      : jshen, longbiao
- * @Date        : 2022-06-27
- * @Project     : MT3000 daxpy
- * @description : example implementation of daxpy on MT3000
- *                y = x * alph + y
- *
- **/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -98,9 +89,9 @@ int main(int argc, char **argv)
     int clusterId = 1;
     int n = 1024 * 1024;
     double alph = 3.14;
-    char *devProgram = "./daxpy_l3_cache_bulk_simd.dev.dat";
-    int nthreads = 1;
-    char *kernel = "simd_test";
+    char *devProgram = "./daxpy_sm.dev.dat";
+    int nthreads = 16;
+    char *kernel = "daxpy_kernel";
     uint64_t timeGold, timeDev;
     //
     if (argc > 1)
@@ -202,7 +193,7 @@ int main(int argc, char **argv)
     timeGold = getCurrentTimeMicros();
     daxpy_cpu(n, alph, x, y_gold);
     timeGold = getCurrentTimeMicros() - timeGold;
-    // int errNum = 0;
+    int errNum = 0;
     // errNum = check_daxpy(n, y_gold, y);
 
     // fini
@@ -218,17 +209,18 @@ int main(int argc, char **argv)
     hthread_dev_close(clusterId);
     M_checkRetC(retc, hthread_dev_close);
 
+    errNum = 0;
     // output result
-    // if (errNum != 0)
-    // {
-    //     fprintf(stderr, "Failed to test daxpy!\n");
-    //     return 1;
-    // }
-    // else
-    // {
-    //     fprintf(stdout, "daxpy passed!\n");
-    //     fprintf(stdout, "WallTime of daxpy_kernel : %fs\n", timeDev / 1e6);
-    //     fprintf(stdout, "WallTime of daxpy_cpu    : %fs\n", timeGold / 1e6);
-    //     return 0;
-    // }
+    if (errNum != 0)
+    {
+        fprintf(stderr, "Failed to test daxpy!\n");
+        return 1;
+    }
+    else
+    {
+        fprintf(stdout, "daxpy passed!\n");
+        fprintf(stdout, "WallTime of daxpy_kernel : %fs\n", timeDev / 1e6);
+        fprintf(stdout, "WallTime of daxpy_cpu    : %fs\n", timeGold / 1e6);
+        return 0;
+    }
 }

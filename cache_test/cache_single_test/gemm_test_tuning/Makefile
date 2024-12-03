@@ -1,4 +1,5 @@
 include make.conf
+# CACHE_PATH:=/thfs3/home/xjtu_cx/lhj/mt3000-cache/define_version/
 MY_INCLUDE_PATH:=/thfs3/home/xjtu_cx/lhj/mt3000-cache/cache_test/cache_single_test/include
 HTHREADS_INCLUDE_PATH:=${HTHREADS_ROOT_PATH}/include
 

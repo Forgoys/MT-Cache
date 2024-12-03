@@ -20,9 +20,9 @@ static inline void gemm_single_mem(long *A, long *B, long *C, int length, int st
 
 static inline void gemm_single_cache(long *A, long *B, long *C, int length, int stride)
 {
-    CACHEs_INIT(A, long, 0, 0, global_lines);
-    CACHEs_INIT(B, long, 0, 0, global_lines);
-    CACHEs_INIT(C, long, 0, 0, global_lines);
+    CACHEs_INIT(A, long, A, 0, global_lines);
+    CACHEs_INIT(B, long, B, 0, global_lines);
+    CACHEs_INIT(C, long, C, 0, global_lines);
     long tmp_A, tmp_B, tmp_C;
     for (int k = 0; k < length; k++)
     {
@@ -30,11 +30,11 @@ static inline void gemm_single_cache(long *A, long *B, long *C, int length, int 
         {
             for (int j = 0; j < length; j++)
             {
-                CACHEs_SEC_W_RD(A, A + i * stride + k, tmp_A, long);
-                CACHEs_SEC_W_RD(B, B + k * stride + j, tmp_B, long);
-                CACHEs_SEC_W_RD(C, C + i * stride + j, tmp_C, long);
+                CACHEs_RD(A, A + i * stride + k, tmp_A, long);
+                CACHEs_RD(B, B + k * stride + j, tmp_B, long);
+                CACHEs_RD(C, C + i * stride + j, tmp_C, long);
                 tmp_C += tmp_A * tmp_B;
-                CACHEs_SEC_W_WR(C, C + i * stride + j, tmp_C, long);
+                CACHEs_WT(C, C + i * stride + j, tmp_C, long);
             }
         }
     }
