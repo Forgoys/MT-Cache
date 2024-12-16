@@ -70,8 +70,8 @@ static inline void gemm_single_cache(long *A, long *B, long *C, int length, int 
             }
         }
     }
-    CACHEd_FLUSH(A);
-    CACHEd_FLUSH(B);
+    CACHEd_INVALID(A);
+    CACHEd_INVALID(B);
     CACHEd_FLUSH(C);
 }
 
