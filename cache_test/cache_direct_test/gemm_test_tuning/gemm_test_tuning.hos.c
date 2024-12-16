@@ -156,8 +156,8 @@ double dsp_test(int clusterId, char *kernel, int nthreads, int n, int tileSize, 
 int main(int argc, char **argv)
 {
     int retc;
-    int clusterId = 2;
-    int n = 1024;
+    int clusterId = 0;
+    int n = 512;
     char *devProgram = "./gemm_test_tuning.dev.dat";
     int nthreads = 24;
     char *kernel = "gemm_cache_test_kernel";

@@ -1,6 +1,6 @@
 #include <compiler/m3000.h>
 #include "hthread_device.h"
-#include "cache_direct.h"
+#include "cache_wrapper.h"
 #include "mem.h"
 int global_cets = 7;
 int global_lines = 7;
@@ -70,8 +70,11 @@ static inline void gemm_single_cache(long *A, long *B, long *C, int length, int 
             }
         }
     }
+    CACHEd_STATUS(A);
+    // CACHEd_STATUS(B);
     CACHEd_INVALID(A);
     CACHEd_INVALID(B);
+
     CACHEd_FLUSH(C);
 }
 

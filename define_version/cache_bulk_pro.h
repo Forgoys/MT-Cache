@@ -41,22 +41,24 @@
         float read_hit_rate = 100.0;                                                                                   \
         float write_hit_rate = 100.0;                                                                                  \
         float total_hit_rate = 100.0;                                                                                  \
-        hthread_print("\n====================================================\n");                                     \
-        hthread_print("              Cache Statistics Report                \n");                                      \
-        hthread_print("====================================================\n");                                       \
-        hthread_print("Thread ID:    %d\n", get_thread_id());                                                          \
-        hthread_print("Cache Name:   %s\n", #__name);                                                                  \
-        hthread_print("Cache Type:   Batch Cache\n");                                                                  \
-        hthread_print("----------------------------------------------------\n");                                       \
-        hthread_print("Access Statistics:\n");                                                                         \
-        hthread_print("  Read Operations:     %lu\n", de_read_count_##__name);                                         \
-        hthread_print("  Write Operations:    %lu\n", de_write_count_##__name);                                        \
-        hthread_print("  Total Operations:    %lu\n", de_read_count_##__name + de_write_count_##__name);               \
-        hthread_print("\nCache Performance:\n");                                                                       \
-        hthread_print("  Read Hit Rate:       %.2f%%\n", read_hit_rate);                                               \
-        hthread_print("  Write Hit Rate:      %.2f%%\n", write_hit_rate);                                              \
-        hthread_print("  Overall Hit Rate:    %.2f%%\n", total_hit_rate);                                              \
-        hthread_print("====================================================\n\n");                                     \
+        if (get_thread_id() == 0) {                                                                                    \
+            hthread_printf("\n====================================================\n");                                \
+            hthread_printf("              Cache Statistics Report                \n");                                 \
+            hthread_printf("====================================================\n");                                  \
+            hthread_printf("Thread ID:    %d\n", get_thread_id());                                                     \
+            hthread_printf("Cache Name:   %s\n", #__name);                                                             \
+            hthread_printf("Cache Type:   Batch Cache\n");                                                             \
+            hthread_printf("----------------------------------------------------\n");                                  \
+            hthread_printf("Access Statistics:\n");                                                                    \
+            hthread_printf("  Read Operations:     %lu\n", de_read_count_##__name);                                    \
+            hthread_printf("  Write Operations:    %lu\n", de_write_count_##__name);                                   \
+            hthread_printf("  Total Operations:    %lu\n", de_read_count_##__name + de_write_count_##__name);          \
+            hthread_printf("\nCache Performance:\n");                                                                  \
+            hthread_printf("  Read Hit Rate:       %.2f%%\n", read_hit_rate);                                          \
+            hthread_printf("  Write Hit Rate:      %.2f%%\n", write_hit_rate);                                         \
+            hthread_printf("  Overall Hit Rate:    %.2f%%\n", total_hit_rate);                                         \
+            hthread_printf("====================================================\n\n");                                \
+        }                                                                                                              \
     } while (0)
 
 #define CACHEb_FLUSH(__name)                                                                                           \

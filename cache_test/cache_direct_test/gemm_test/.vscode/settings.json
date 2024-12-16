@@ -1,4 +1,18 @@
 {
+  "workbench.colorCustomizations": {
+    "sideBar.background": "#1f2329",
+    "activityBar.background": "#2A2E37",
+    "titleBar.activeBackground": "#2A2E37",
+    "editor.background": "#181B20",
+    "terminal.background": "#181B20",
+    "panel.background": "#181B20",
+    "dropdown.background": "#181B20",
+    "dropdown.listBackground": "#181B20",
+    "editorGroupHeader.tabsBackground": "#1F2229",
+    "tab.inactiveBackground": "#23282E",
+    "menu.background": "#2A2F37",
+    "menu.selectionBackground": "#0E629D"
+  },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",
@@ -55,27 +69,5 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "workbench.colorCustomizations": {
-    "sideBar.background": "#1f2329",
-    "activityBar.background": "#2A2E37",
-    "titleBar.activeBackground": "#2A2E37",
-    "editor.background": "#181B20",
-    "terminal.background": "#181B20",
-    "panel.background": "#181B20",
-    "dropdown.background": "#181B20",
-    "dropdown.listBackground": "#181B20",
-    "editorGroupHeader.tabsBackground": "#1F2229",
-    "tab.inactiveBackground": "#23282E",
-    "menu.background": "#2A2F37",
-    "menu.selectionBackground": "#0E629D"
-},
-"files.associations": {
-    "\"*.cu\"": "cpp",
-    "*.cu": "cpp",
-    "*.cuh": "cpp",
-    "*.c": "c",
-    "cache_wrapper.h": "c",
-    "csv_handler.h": "c"
-}
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }

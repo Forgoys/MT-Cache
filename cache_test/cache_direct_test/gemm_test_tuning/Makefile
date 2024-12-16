@@ -1,5 +1,5 @@
 include make.conf
-MY_INCLUDE_PATH:=/thfs3/home/xjtu_cx/lhj/mt3000-cache/cache_test/cache_direct_test/include
+MY_INCLUDE_PATH:=/thfs3/home/xjtu_cx/lhj/mt3000-cache/define_version
 HTHREADS_INCLUDE_PATH:=${HTHREADS_ROOT_PATH}/include
 
 HTHREADS_LIB_PATH:=${HTHREADS_ROOT_PATH}/lib
@@ -29,6 +29,10 @@ DEV_LDFLAGS+= --gc-sections -T$(HTHREADS_LIB_PATH)/dsp.lds -lhthread_device \
 
 export LD_LIBRARY_PATH=/thfs3/software/programming_env/mt3000_programming_env/third-party-lib:$LD_LIBRARY_PATH
 
+
+ifdef PROF
+    DEV_CFLAGS += -DENABLE_CACHE_PROFILING
+endif
 
 ###############################################################################
 .PHONY: ALL
