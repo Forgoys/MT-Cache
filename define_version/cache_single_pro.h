@@ -18,7 +18,8 @@
     unsigned long de_read_count_##__name = 0;                                                                          \
     unsigned long de_write_count_##__name = 0;                                                                         \
     unsigned long de_read_hits_##__name = 0;                                                                           \
-    unsigned long de_write_hits_##__name = 0;
+    unsigned long de_write_hits_##__name = 0;                                                                          \
+    unsigned long de_op_state_##__name = 0;
 
 #define CACHEs_SEC_W_RD_K(__name, __addr, __value)                                                                     \
     do {                                                                                                               \

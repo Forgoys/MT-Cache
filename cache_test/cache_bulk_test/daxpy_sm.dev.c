@@ -24,8 +24,8 @@ static inline void daxpy_single(uint64_t n, double a, double *x, double *y)
 
 static inline void daxpy_single_cache(uint64_t n, double a, double *x, double *y)
 {
-    CACHEb_INIT(x, double, x, 0, 8192);
-    CACHEb_INIT(y, double, y, 0, 8192);
+    CACHEb_INIT(x, double, x, 0, n * sizeof(double));
+    CACHEb_INIT(y, double, y, 0, n * sizeof(double));
     double xx, yy;
     for (uint64_t i = 0; i < n; ++i) {
         CACHEb_RD(x, x + i, xx, double);
