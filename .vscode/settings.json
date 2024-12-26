@@ -12,7 +12,7 @@
     "tab.inactiveBackground": "#23282E",
     "menu.background": "#2A2F37",
     "menu.selectionBackground": "#0E629D"
-  },
+},
   "files.associations": {
     "\"*.cu\"": "cpp",
     "*.cu": "cpp",
@@ -31,7 +31,8 @@
     "mem.h": "c",
     "cstddef": "cpp",
     "tuple": "cpp",
-    "utility": "cpp"
+    "utility": "cpp",
+    "random": "c"
 },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
