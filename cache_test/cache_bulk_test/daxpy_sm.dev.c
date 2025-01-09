@@ -11,7 +11,6 @@
 
 #include "cache_bulk.h"
 #include "hthread_device.h"
-#include <compiler/m3000.h>
 
 #define SEGMENT_SIZE 1024 // 1024 * 8 / 1024 8KB
 
@@ -24,6 +23,7 @@ static inline void daxpy_single(uint64_t n, double a, double *x, double *y)
 
 static inline void daxpy_single_cache(uint64_t n, double a, double *x, double *y)
 {
+    double *x_rcd = x, *y_rcd = y;
     CACHEb_INIT(x, double, x, 0, n * sizeof(double));
     CACHEb_INIT(y, double, y, 0, n * sizeof(double));
     double xx, yy;
@@ -31,6 +31,9 @@ static inline void daxpy_single_cache(uint64_t n, double a, double *x, double *y
         CACHEb_RD(x, x + i, xx, double);
         CACHEb_RD(y, y + i, yy, double);
         yy = a * xx + yy;
+        // if (yy != a * x_rcd[i] + y_rcd[i]) {
+        //     hthread_printf("id: %d, index: %d\n", get_thread_id(), i);
+        // }
         CACHEb_WT(y, y + i, yy, double);
     }
     CACHEb_INVALID(x);
@@ -64,10 +67,12 @@ __global__ void daxpy_kernel(uint64_t n, double a, double *x, double *y)
         return;
 
     // 计算每个线程的起始位置和处理长度
-    uint64_t base = n / threadsNum;  // 16 * 1024
+    uint64_t base = n / threadsNum;
     uint64_t extra = n % threadsNum;
     uint64_t start = threadId * base + (threadId < extra ? threadId : extra);
-    uint64_t length = base + (threadId < extra ? 1 : 0);  // 16 * 1024
+    uint64_t length = base + (threadId < extra ? 1 : 0);
+
+    // hthread_printf("id: %d, start: %llu, length: %llu\n", get_thread_id(), start, length);
 
     if (length == 0)
         return; // 避免空任务

@@ -1,11 +1,22 @@
 #include "hthread_device.h"
 
+// #define CACHEb_RD_K(__name, __Ea, __size, __type)                                                                      \
+//     char *_interface_buffer_##__name = (char *)scalar_malloc(__size + 64);                                             \
+//     unsigned long _interface_Ea_align_##__name = (unsigned long)__Ea & 0xFFFFFFFFFFFFFFE0;                             \
+//     unsigned long _interface_dma_offset_##__name = (unsigned long)__Ea - (unsigned long)_interface_Ea_align_##__name;  \
+//     unsigned long _interface_original_##__name;                                                                        \
+//     unsigned long _interface_sizes_##__name = (((__size + _interface_dma_offset_##__name) + 63) & ~63);                \
+//     scalar_load((void *)_interface_Ea_align_##__name, _interface_buffer_##__name, _interface_sizes_##__name);          \
+//     _interface_original_##__name = __Ea;                                                                               \
+//     __Ea = (__type *)((unsigned long)_interface_buffer_##__name + _interface_dma_offset_##__name);                     \
+//     unsigned long de_Ea_##__name = (unsigned long)__Ea;
+
 #define CACHEb_RD_K(__name, __Ea, __size, __type)                                                                      \
-    char *_interface_buffer_##__name = (char *)scalar_malloc(__size + 64);                                             \
-    unsigned long _interface_Ea_align_##__name = (unsigned long)__Ea & 0xFFFFFFFFFFFFFFE0;                             \
+    char *_interface_buffer_##__name = (char *)scalar_malloc(__size);                                             \
+    unsigned long _interface_Ea_align_##__name = (unsigned long)__Ea;                             \
     unsigned long _interface_dma_offset_##__name = (unsigned long)__Ea - (unsigned long)_interface_Ea_align_##__name;  \
     unsigned long _interface_original_##__name;                                                                        \
-    unsigned long _interface_sizes_##__name = (((__size + _interface_dma_offset_##__name) + 63) & ~63);                \
+    unsigned long _interface_sizes_##__name = __size;                \
     scalar_load((void *)_interface_Ea_align_##__name, _interface_buffer_##__name, _interface_sizes_##__name);          \
     _interface_original_##__name = __Ea;                                                                               \
     __Ea = (__type *)((unsigned long)_interface_buffer_##__name + _interface_dma_offset_##__name);                     \
@@ -14,7 +25,6 @@
 // 批量写回内存
 #define CACHEb_WR_K(__name)                                                                                            \
     do {                                                                                                               \
-        _interface_sizes_##__name = ((de_size_##__name + _interface_dma_offset_##__name) & 0xffffff80) + 128;          \
         scalar_store(_interface_buffer_##__name, (void *)_interface_Ea_align_##__name, _interface_sizes_##__name);     \
     } while (0)
 
